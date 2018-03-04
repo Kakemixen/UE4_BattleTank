@@ -6,13 +6,12 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController begin"));
 	ATank* TempTank = GetControlledTank();
 	if (TempTank == nullptr) {
-		UE_LOG(LogTemp, Error, TEXT("No Tank!"));
+		UE_LOG(LogTemp, Error, TEXT("Player Has No Tank!"));
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Has Tank %s"), *TempTank->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("Player Has Tank %s"), *TempTank->GetName());
 	}
 }
 
