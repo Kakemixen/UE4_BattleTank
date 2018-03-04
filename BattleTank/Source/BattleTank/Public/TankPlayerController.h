@@ -31,4 +31,5 @@ private:
 	//Move barrel so a shot would hit where crosshair intersects world
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(FVector& OUT HitLocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& OUT LookDirection) const;
 };
