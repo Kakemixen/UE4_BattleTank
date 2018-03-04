@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 
+#define OUT
 
 void ATankPlayerController::BeginPlay()
 {
@@ -32,9 +33,19 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) { return; }
 
-	//Get World Location through(linetrace) crosshair
-	//if hits landscape
-		//Tell controlled tank to aim towards spot
+	FVector OUT HitLocation;
 
+	//Get World Location through(linetrace) crosshair
+	if (GetSightRayHitLocation(HitLocation)) {
+		//stuff
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation %s"), *HitLocation.ToCompactString());
+		//if hits landscape
+			// TODO Tell controlled tank to aim towards spot
+	}
 }
 
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OUT HitLocation) const
+{
+	HitLocation = FVector(1.0);
+	return true;
+}
