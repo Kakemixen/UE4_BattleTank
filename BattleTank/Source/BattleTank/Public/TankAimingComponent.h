@@ -21,6 +21,7 @@ public:
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 	void SetBarrelReference(UStaticMeshComponent* Barrel);
+	//TODO turret reference
 
 protected:
 	// Called when the game starts
@@ -32,5 +33,7 @@ public:
 
 private:
 	UStaticMeshComponent * Barrel = nullptr;
+
+	void MoveBarrelTowards(FVector Direction);
 	
 };

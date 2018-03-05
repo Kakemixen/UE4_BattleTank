@@ -61,7 +61,20 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		FVector AimDirection = LaunchVelocity.GetSafeNormal();
 		UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"),
 			*AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
 	}
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
+{
+	//work out difference between current barrel and required
+	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
+	FRotator RequiredRotator = Direction.Rotation();
+	FRotator DeltaRotator = RequiredRotator - BarrelRotator;
+
+	//move such given max speed given frametime
+	//TODO Barrel
+	//TODO Turret
 }
 
 
