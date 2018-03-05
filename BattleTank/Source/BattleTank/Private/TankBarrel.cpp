@@ -4,7 +4,7 @@
 
 
 
-void UTankBarrel::ElevateBarrel(float DegreesPrSec)
+void UTankBarrel::ElevateBarrel(float RelativeSpeed)
 {
 	//move such given max speed given frametime
 }
