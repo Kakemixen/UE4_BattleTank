@@ -2,6 +2,8 @@
 
 
 #include "TankAimingComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "TankBarrel.h"
 
 #define OUT
 
@@ -73,12 +75,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 	FRotator DeltaRotator = RequiredRotator - BarrelRotator;
 
 	//move such given max speed given frametime
-	//TODO Barrel
+	Barrel->ElevateBarrel(5); //TODO no magic number
 	//TODO Turret
 }
 
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* Barrel)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* Barrel)
 {
 	this->Barrel = Barrel;
 }
