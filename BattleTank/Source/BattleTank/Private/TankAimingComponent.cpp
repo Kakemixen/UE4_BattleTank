@@ -75,7 +75,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 	FRotator DeltaRotator = RequiredRotator - BarrelRotator;
 
 	//move such given max speed given frametime
-	Barrel->ElevateBarrel(5); //TODO no magic number
+	Barrel->ElevateBarrel(DeltaRotator.Pitch); 
 	//TODO Turret
 }
 
