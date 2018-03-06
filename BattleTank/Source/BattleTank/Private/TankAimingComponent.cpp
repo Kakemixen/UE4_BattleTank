@@ -13,7 +13,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -27,13 +27,7 @@ void UTankAimingComponent::BeginPlay()
 
 
 
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
-}
 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
@@ -56,7 +50,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	if (UGameplayStatics::SuggestProjectileVelocity(
 		this,
-		LaunchVelocity,
+		OUT LaunchVelocity,
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
@@ -79,7 +73,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 
 	//move such given max speed given frametime
 	Barrel->ElevateBarrel(DeltaRotator.Pitch); 
-	Turret->RotateTurret(DeltaRotator.Yaw);
+	///TODO gjør en mindre yalla fix
+	float Rotation = DeltaRotator.Yaw;
+	if (Rotation < -180) {
+		//Rotation other way is best
+		Rotation = 1;
+	}
+	if (Rotation > 180) {
+		//same
+		Rotation = -1;
+	}
+	Turret->RotateTurret(Rotation);
 }
 
 

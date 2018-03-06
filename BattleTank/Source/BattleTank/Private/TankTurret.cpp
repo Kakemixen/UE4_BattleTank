@@ -6,6 +6,8 @@
 
 void UTankTurret::RotateTurret(float RelativeSpeed)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Speed: %f "), RelativeSpeed);
+
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, +1);
 
 	//move such given max speed given frametime
@@ -13,5 +15,5 @@ void UTankTurret::RotateTurret(float RelativeSpeed)
 	float NewRotation = RelativeRotation.Yaw + RotationChange;
 
 	SetRelativeRotation(FRotator(0,NewRotation, 0));
-
+	
 }
