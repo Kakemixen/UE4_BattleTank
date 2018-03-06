@@ -3,6 +3,7 @@
 #include "Tank.h"
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 // Sets default values
@@ -39,4 +40,8 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::SetBarrelReference(UTankBarrel* Barrel)
 {
 	TankAimingComponent->SetBarrelReference(Barrel);
+}
+void ATank::SetTurretReference(UTankTurret* Turret)
+{
+	TankAimingComponent->SetTurretReference(Turret);
 }

@@ -4,6 +4,7 @@
 #include "TankAimingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 #define OUT
 
@@ -22,10 +23,8 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
+
 
 
 // Called every frame
@@ -39,9 +38,15 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) {
-		UE_LOG(LogTemp, Error, TEXT("Tank No barrel %s"), *GetOwner()->GetName());
-		return;
+
+	if (!Barrel || !Turret) { 
+		if (!Barrel) {
+			UE_LOG(LogTemp, Error, TEXT("Tank No barrel: %s"), *GetOwner()->GetName());
+		}
+		if (!Turret) {
+			UE_LOG(LogTemp, Error, TEXT("Tank No turret: %s"), *GetOwner()->GetName());
+		}
+		return; 
 	}
 
 	FVector LaunchVelocity;
@@ -61,8 +66,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	)) {
 		FVector AimDirection = LaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"),
-			*AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
 	}
 }
@@ -76,12 +79,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 
 	//move such given max speed given frametime
 	Barrel->ElevateBarrel(DeltaRotator.Pitch); 
-	//TODO Turret
+	Turret->RotateTurret(DeltaRotator.Yaw);
 }
 
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* Barrel)
 {
 	this->Barrel = Barrel;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* Turret)
+{
+	this->Turret = Turret;
 }
 
