@@ -62,6 +62,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		FVector AimDirection = LaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
+	else {
+		//TODO max range in Yaw
+	}
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
