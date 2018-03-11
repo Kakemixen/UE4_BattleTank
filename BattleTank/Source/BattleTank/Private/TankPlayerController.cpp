@@ -4,6 +4,7 @@
 #include "Tank.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
+#include "TankAimingComponent.h"
 
 #define OUT
 
@@ -37,7 +38,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	//Get World Location through(linetrace) crosshair
 	if (GetSightRayHitLocation(OUT HitLocation)) {
-		GetControlledTank()->AimAt(HitLocation);
+		GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
 	}
 }
 
