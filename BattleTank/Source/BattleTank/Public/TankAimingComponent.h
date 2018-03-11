@@ -9,6 +9,7 @@
 
 class UTankBarrel; //Forward Decloeration
 class UTankTurret;
+class AProjectile;
 
 UENUM()
 enum class EFiringState : uint8
@@ -30,8 +31,10 @@ public:
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-	void SetBarrelReference(UTankBarrel* Barrel);
-	void SetTurretReference(UTankTurret* Turret);
+	UFUNCTION(Blueprintcallable, Category = Setup)
+		void Initialise(UTankTurret* Turret, UTankBarrel* Barrel);
+
+	void Fire(TSubclassOf<AProjectile> ProjectileBP, float LaunchSpeed);
 
 protected:
 	// Called when the game starts
@@ -45,5 +48,10 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	void MoveBarrelTowards(FVector Direction);
+
+	double LastFireTime = 0;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		double ReloadTimeSeconds = 2;
+
 	
 };

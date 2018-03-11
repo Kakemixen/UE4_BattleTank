@@ -5,6 +5,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
+#include "Engine/World.h"
 
 #define OUT
 
@@ -26,8 +28,15 @@ void UTankAimingComponent::BeginPlay()
 }
 
 
-
-
+void UTankAimingComponent::Initialise(UTankTurret* Turret, UTankBarrel* Barrel)
+{
+	if (!Turret || !Barrel) {
+		UE_LOG(LogTemp, Error, TEXT("%s No Turret/Barrel added"), *GetName());
+		return;
+	}
+	this->Turret = Turret;
+	this->Barrel = Barrel;
+}
 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
@@ -89,14 +98,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 	Turret->RotateTurret(Rotation);
 }
 
-
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* Barrel)
+void UTankAimingComponent::Fire(TSubclassOf<AProjectile> ProjectileBP, float LaunchSpeed)
 {
-	this->Barrel = Barrel;
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
+	if (!isReloaded) { return; }
+	LastFireTime = FPlatformTime::Seconds();
+	//Spawn projectile at socket location from barrel
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBP,
+		Barrel->GetSocketLocation(FName("ProjectileStart")),
+		Barrel->GetSocketRotation(FName("ProjectileStart"))
+		);
+	if (!Projectile) { UE_LOG(LogTemp, Error, TEXT("%s No blueprint projectile added"), *GetName()); return; }
+	Projectile->Launch(LaunchSpeed);
 }
-
-void UTankAimingComponent::SetTurretReference(UTankTurret* Turret)
-{
-	this->Turret = Turret;
-}
-

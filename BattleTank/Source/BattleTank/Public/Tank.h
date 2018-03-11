@@ -23,11 +23,6 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UTankBarrel* Barrel);
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* Turret);
-
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
@@ -38,12 +33,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 		UTankMovementComponent* TankMovementComponent = nullptr;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 private:
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
@@ -51,11 +42,5 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBP;
-
-	UTankBarrel* Barrel;
-
-	double LastFireTime = 0;
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		double ReloadTimeSeconds = 2;
 
 };

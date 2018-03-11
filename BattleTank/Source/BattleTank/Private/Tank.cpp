@@ -16,23 +16,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	//No need to protect since constructor
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
-}
-
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -42,28 +27,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
-	if (!Barrel || !isReloaded) { return; }
-	LastFireTime = FPlatformTime::Seconds();
-	//Spawn projectile at socket location from barrel
-	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBP,
-		Barrel->GetSocketLocation(FName("ProjectileStart")),
-		Barrel->GetSocketRotation(FName("ProjectileStart"))
-	);
-	if (!Projectile) { UE_LOG(LogTemp, Error, TEXT("%s No blueprint projectile added"), *GetName()); return; }
-	Projectile->Launch(LaunchSpeed);
+	TankAimingComponent->Fire(ProjectileBP, LaunchSpeed);
 }
 
 
-
-void ATank::SetBarrelReference(UTankBarrel* Barrel)
-{
-	this->Barrel = Barrel; //local variable to spawn stuffs
-	TankAimingComponent->SetBarrelReference(Barrel);
-}
-void ATank::SetTurretReference(UTankTurret* Turret)
-{
-	TankAimingComponent->SetTurretReference(Turret);
-}
