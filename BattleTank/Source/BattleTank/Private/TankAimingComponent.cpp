@@ -30,7 +30,7 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::Initialise(UTankTurret* Turret, UTankBarrel* Barrel)
 {
-	if (!Turret || !Barrel) {
+	if (!ensure(Turret && Barrel)) {
 		UE_LOG(LogTemp, Error, TEXT("%s No Turret/Barrel added"), *GetName());
 		return;
 	}
@@ -42,11 +42,11 @@ void UTankAimingComponent::Initialise(UTankTurret* Turret, UTankBarrel* Barrel)
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 
-	if (!Barrel || !Turret) { 
-		if (!Barrel) {
+	if (!ensure(Barrel && Turret)) { 
+		if (!ensure(Barrel)) {
 			UE_LOG(LogTemp, Error, TEXT("Tank No barrel: %s"), *GetOwner()->GetName());
 		}
-		if (!Turret) {
+		if (!ensure(Turret)) {
 			UE_LOG(LogTemp, Error, TEXT("Tank No turret: %s"), *GetOwner()->GetName());
 		}
 		return; 
@@ -78,7 +78,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 {
-	if (!Barrel || !Turret) { return; }
+	if (!ensure(Barrel && Turret)) { return; }
 	//work out difference between current barrel and required
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator RequiredRotator = Direction.Rotation();
@@ -110,6 +110,6 @@ void UTankAimingComponent::Fire(TSubclassOf<AProjectile> ProjectileBP, float Lau
 		Barrel->GetSocketLocation(FName("ProjectileStart")),
 		Barrel->GetSocketRotation(FName("ProjectileStart"))
 		);
-	if (!Projectile) { UE_LOG(LogTemp, Error, TEXT("%s No blueprint projectile added"), *GetName()); return; }
+	if (!ensure(Projectile)) { UE_LOG(LogTemp, Error, TEXT("%s No blueprint projectile added"), *GetName()); return; }
 	Projectile->Launch(LaunchSpeed);
 }

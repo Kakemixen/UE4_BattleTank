@@ -11,14 +11,14 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	ATank* TempTank = GetControlledTank();
-	if (TempTank == nullptr) {
+	if (!ensure(TempTank)) {
 		UE_LOG(LogTemp, Error, TEXT("Player Has No Tank!"));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Player Has Tank %s"), *TempTank->GetName());
 	}
 	UTankAimingComponent* AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent) {
+	if (ensure(AimingComponent)) {
 		FoundAimingComponent(AimingComponent);
 	}
 	else {
@@ -41,7 +41,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation;
 

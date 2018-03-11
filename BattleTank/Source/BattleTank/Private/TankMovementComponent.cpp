@@ -5,7 +5,7 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrack, UTankTrack* RightTrack)
 {
-	if (!LeftTrack || !RightTrack) {
+	if (!ensure(LeftTrack && RightTrack)) {
 		UE_LOG(LogTemp, Error, TEXT("%s No tracks added"), *GetName());
 		return;
 	}
@@ -16,14 +16,14 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrack, UTankTrack* Right
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }
