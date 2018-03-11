@@ -17,7 +17,6 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrack, UTankTrack* Right
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	if (!LeftTrack || !RightTrack) { return; }
-	//UE_LOG(LogTemp, Warning, TEXT("%s Intention Forward: %f"), *GetName(), Throw);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
@@ -25,21 +24,18 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
 	if (!LeftTrack || !RightTrack) { return; }
-	//UE_LOG(LogTemp, Warning, TEXT("%s Intention Right: %f"), *GetName(), Throw);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *GetOwner()->GetName(), *MoveVelocity.GetSafeNormal().ToString());
-
+	
 	FVector AIMovementIntention = MoveVelocity.GetSafeNormal();
 	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 
 	float ForwardIntent = FVector::DotProduct(AIMovementIntention, TankForward);
 	IntendMoveForward(ForwardIntent);
 	float RotationIntent = FVector::CrossProduct(TankForward, AIMovementIntention).Z;
-	UE_LOG(LogTemp, Warning, TEXT("%s rorationg to %f"), *GetOwner()->GetName(), RotationIntent)
 	IntendTurnRight(RotationIntent);
 }

@@ -26,10 +26,10 @@ public:
 	UFUNCTION(Blueprintcallable, Category = Setup)
 		void Initialise(UTankTrack* LeftTrack, UTankTrack* RightTrack);
 
-	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
-
-
 private:
+	//Called from pathfinding logic to move tank this frame
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+	
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 

@@ -22,5 +22,5 @@ private:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = Moving)
-		double AcceptanceRadius = 3000;
+		double AcceptanceRadius = 2500;
 };
