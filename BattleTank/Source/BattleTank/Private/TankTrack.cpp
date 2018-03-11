@@ -5,7 +5,7 @@
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s Intention Forward: %f"), *GetName(), Throttle);
+	//UE_LOG(LogTemp, Warning, TEXT("%s Intention Forward: %f"), *GetName(), Throttle);
 
 	//TODO Clamp Throttle +1-1
 	FVector Force = GetForwardVector() * Throttle * TrackMaxDrivingForce;

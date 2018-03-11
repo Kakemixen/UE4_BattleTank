@@ -42,6 +42,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
+
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
 	if (!Barrel || !isReloaded) { return; }
 	LastFireTime = FPlatformTime::Seconds();
@@ -51,7 +52,7 @@ void ATank::Fire()
 		Barrel->GetSocketLocation(FName("ProjectileStart")),
 		Barrel->GetSocketRotation(FName("ProjectileStart"))
 	);
-	if (!Projectile) { return; }
+	if (!Projectile) { UE_LOG(LogTemp, Error, TEXT("%s No blueprint projectile added"), *GetName()); return; }
 	Projectile->Launch(LaunchSpeed);
 }
 
