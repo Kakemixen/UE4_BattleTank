@@ -57,4 +57,5 @@ private:
 	double LastFireTime = 0;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		double ReloadTimeSeconds = 2;
+
 };
