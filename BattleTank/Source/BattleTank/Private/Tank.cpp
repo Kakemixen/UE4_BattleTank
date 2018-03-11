@@ -2,10 +2,6 @@
 
 #include "Tank.h"
 #include "BattleTank.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
-#include "TankAimingComponent.h"
-#include "Projectile.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -18,13 +14,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay(); //Needed for BP begin play
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-}
-
-void ATank::Fire()
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->Fire();
 }
 
 

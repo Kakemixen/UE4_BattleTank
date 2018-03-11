@@ -5,9 +5,7 @@
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("%s Intention Forward: %f"), *GetName(), Throttle);
-
-	//TODO Clamp Throttle +1-1
+	Throttle = FMath::Clamp<float>(Throttle, -1, +1);
 	FVector Force = GetForwardVector() * Throttle * TrackMaxDrivingForce;
 	FVector ForceLocation = GetComponentLocation();
 	UPrimitiveComponent* TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());

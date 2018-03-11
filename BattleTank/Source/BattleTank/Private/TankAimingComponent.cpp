@@ -71,7 +71,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 {
-	UE_LOG(LogTemp, Warning, TEXT("CALLED"));
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	//work out difference between current barrel and required
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
@@ -95,6 +94,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 
 void UTankAimingComponent::Fire()
 {
+	UE_LOG(LogTemp, Warning, TEXT("CALLED"));
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
 	if (!isReloaded) { return; }
 	LastFireTime = FPlatformTime::Seconds();
