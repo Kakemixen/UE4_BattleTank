@@ -33,8 +33,9 @@ public:
 
 	UFUNCTION(Blueprintcallable, Category = Setup)
 		void Initialise(UTankTurret* Turret, UTankBarrel* Barrel);
-
-	void Fire(TSubclassOf<AProjectile> ProjectileBP, float LaunchSpeed);
+	
+	UFUNCTION(BlueprintCallable, Category = Firing)
+		void Fire();
 
 protected:
 	// Called when the game starts
@@ -52,6 +53,12 @@ private:
 	double LastFireTime = 0;
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		double ReloadTimeSeconds = 2;
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBP;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		float LaunchSpeed = 4000;
+
+
 
 	
 };

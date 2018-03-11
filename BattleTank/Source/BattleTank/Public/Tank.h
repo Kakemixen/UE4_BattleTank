@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
+	virtual void BeginPlay() override;
+
+
 protected:
 	UPROPERTY(BlueprintReadOnly)
 		UTankAimingComponent * TankAimingComponent = nullptr;
@@ -34,8 +37,5 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 4000; 
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-		TSubclassOf<AProjectile> ProjectileBP;
 
 };

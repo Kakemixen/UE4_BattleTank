@@ -5,10 +5,7 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrack, UTankTrack* RightTrack)
 {
-	if (!ensure(LeftTrack && RightTrack)) {
-		UE_LOG(LogTemp, Error, TEXT("%s No tracks added"), *GetName());
-		return;
-	}
+	if (!ensure(LeftTrack && RightTrack)) { return;	}
 
 	this->LeftTrack = LeftTrack;
 	this->RightTrack = RightTrack;
