@@ -14,6 +14,7 @@ class AProjectile;
 UENUM()
 enum class EFiringState : uint8
 {
+	OutOfAmmo,
 	Reloading,
 	Aiming,
 	Locked
@@ -31,12 +32,16 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(Blueprintcallable, Category = Setup)
+	UFUNCTION(Blueprintcallable, Category = "Setup")
 		void Initialise(UTankTurret* Turret, UTankBarrel* Barrel);
 	
-	UFUNCTION(BlueprintCallable, Category = Firing)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire();
 
+	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	uint8 GetAmmo() const;
 
 protected:
 	// Called when the game starts
@@ -44,6 +49,8 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringState FiringState = EFiringState::Locked;
+
+	uint8 Ammo = 20;
 
 private:
 	UTankBarrel* Barrel = nullptr;
