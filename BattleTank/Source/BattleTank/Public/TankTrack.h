@@ -13,12 +13,22 @@ UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
+
 	
 public:
+
+	
+
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void SetThrottle(float Throttle);
 	
 	//MaxForce Pr track in N
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-		float TrackMaxDrivingForce = 400000;
+		float TrackMaxDrivingForce = 20000000.0;
+
+private:
+	UTankTrack();
+
+	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 };

@@ -15,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
@@ -25,7 +25,27 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	LastFireTime = FPlatformTime::Seconds();
 }
+
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	//TODO FPlatformTime might cause problems
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeSeconds) 
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	else if(isBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else 
+	{
+		FiringState = EFiringState::Locked;
+	}
+}
+
 
 
 void UTankAimingComponent::Initialise(UTankTurret* Turret, UTankBarrel* Barrel)
@@ -61,13 +81,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		0.f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	)) {
-		FVector AimDirection = LaunchVelocity.GetSafeNormal();
+		AimDirection = LaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 	else {
 		//TODO max range in Yaw
 	}
 }
+
 
 void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 {
@@ -92,11 +113,16 @@ void UTankAimingComponent::MoveBarrelTowards(FVector Direction)
 	Turret->RotateTurret(Rotation);
 }
 
+bool UTankAimingComponent::isBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	return !AimDirection.Equals(Barrel->GetForwardVector(), 0.05f);
+}
+
 void UTankAimingComponent::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("CALLED"));
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeSeconds;
-	if (!isReloaded) { return; }
+	if (!ensure(ProjectileBP && Barrel)) { return; }
+	if (FiringState == EFiringState::Reloading) { return; }
 	LastFireTime = FPlatformTime::Seconds();
 	//Spawn projectile at socket location from barrel
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
