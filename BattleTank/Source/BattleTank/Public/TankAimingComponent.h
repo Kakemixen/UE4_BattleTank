@@ -50,8 +50,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringState FiringState = EFiringState::Locked;
 
-	//Initial Ammo, should perhaps be UPROPERTY()
-	uint8 Ammo = 5;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		uint8 Ammo = 5;
 
 private:
 	UTankBarrel* Barrel = nullptr;
