@@ -50,7 +50,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringState FiringState = EFiringState::Locked;
 
-	uint8 Ammo = 20;
+	//Initial Ammo, should perhaps be UPROPERTY()
+	uint8 Ammo = 5;
 
 private:
 	UTankBarrel* Barrel = nullptr;
@@ -66,10 +67,10 @@ private:
 	double LastFireTime = 0;
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		double ReloadTimeSeconds = 2;
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		TSubclassOf<AProjectile> ProjectileBP;
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		float LaunchSpeed = 4000;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float LaunchSpeed = 10000;
 
 
 
